@@ -28,13 +28,16 @@ O projeto está totalmente containerizado. Certifique-se de ter o **Docker** e o
 ```bash
 git clone [https://github.com/Arthur-Carvalh01/vlab-solicitacoes.git](https://github.com/Arthur-Carvalh01/vlab-solicitacoes.git)
 cd vlab-solicitacoes
+```
 
 **2. Suba a infraestrutura com o Docker**
+
 ```bash
 docker-compose up -d --build
 ```
 
 **3. Configure o Banco de Dados (Migrations)**
+
 Como o backend roda dentro do container, execute as migrations do Laravel com o comando:
 ```bash
 docker exec -it vlab_api php artisan migrate
