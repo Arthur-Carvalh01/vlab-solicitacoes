@@ -8,6 +8,27 @@ use Illuminate\Support\Str;
 
 class SolicitacaoController extends Controller
 {
+    public function index(Request $request)
+    {
+        $query = Solicitacao::query();
+
+        // Aplica os filtros solicitados pelo edital, se forem enviados na URL
+        if ($request->has('status')) {
+            $query->where('status', $request->status);
+        }
+        if ($request->has('categoria')) {
+            $query->where('categoria', $request->categoria);
+        }
+        if ($request->has('prioridade')) {
+            $query->where('prioridade', $request->prioridade);
+        }
+
+        // Retorna os dados com paginação (ex: 10 itens por página)
+        $solicitacoes = $query->paginate(10);
+
+        return response()->json($solicitacoes);
+    }
+
     public function store(Request $request)
     {
         // 1. Validação dos dados que chegam do Frontend
@@ -30,5 +51,38 @@ class SolicitacaoController extends Controller
 
         // 4. Retorna os dados criados com o código HTTP 201 (Created)
         return response()->json($solicitacao, 201);
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $solicitacao = Solicitacao::findOrFail($id);
+
+        $validated = $request->validate([
+            'status' => 'required|in:EM_ANALISE,AGENDADA,CONCLUIDA,CANCELADA',
+        ]);
+
+        $statusAtual = $solicitacao->status;
+        $novoStatus = $validated['status'];
+
+        // Regras de transição exigidas pelo edital
+        $transicoesValidas = [
+            'RECEBIDA' => ['EM_ANALISE', 'CANCELADA'],
+            'EM_ANALISE' => ['AGENDADA', 'CANCELADA'],
+            'AGENDADA' => ['CONCLUIDA', 'CANCELADA'],
+            'CONCLUIDA' => [],
+            'CANCELADA' => [],
+        ];
+
+        // Verifica se o movimento é permitido
+        if (!in_array($novoStatus, $transicoesValidas[$statusAtual])) {
+            return response()->json([
+                'message' => "Transição inválida. Não é possível mudar o status de {$statusAtual} para {$novoStatus}."
+            ], 422);
+        }
+
+        $solicitacao->status = $novoStatus;
+        $solicitacao->save();
+
+        return response()->json($solicitacao);
     }
 }
