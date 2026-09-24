@@ -26,7 +26,7 @@ O projeto está totalmente containerizado. Certifique-se de ter o **Docker** e o
 **1. Clone o repositório**
 
 ```bash
-git clone [https://github.com/Arthur-Carvalh01/vlab-solicitacoes.git](https://github.com/Arthur-Carvalh01/vlab-solicitacoes.git)
+git clone https://github.com/Arthur-Carvalh01/vlab-solicitacoes.git
 cd vlab-solicitacoes
 ```
 
