@@ -24,21 +24,21 @@ Este projeto é uma aplicação Full-Stack desenvolvida para o desafio técnico 
 O projeto está totalmente containerizado. Certifique-se de ter o **Docker** e o **Docker Compose** instalados na sua máquina.
 
 **1. Clone o repositório**
-\`\`\`bash
-git clone https://github.com/Arthur-Carvalh01/vlab-solicitacoes.git
+
+```bash
+git clone [https://github.com/Arthur-Carvalh01/vlab-solicitacoes.git](https://github.com/Arthur-Carvalh01/vlab-solicitacoes.git)
 cd vlab-solicitacoes
-\`\`\`
 
 **2. Suba a infraestrutura com o Docker**
-\`\`\`bash
+```bash
 docker-compose up -d --build
-\`\`\`
+```
 
 **3. Configure o Banco de Dados (Migrations)**
 Como o backend roda dentro do container, execute as migrations do Laravel com o comando:
-\`\`\`bash
+```bash
 docker exec -it vlab_api php artisan migrate
-\`\`\`
+```
 
 **4. Acesse a Aplicação**
 * **Frontend:** [http://localhost:5173](http://localhost:5173)
