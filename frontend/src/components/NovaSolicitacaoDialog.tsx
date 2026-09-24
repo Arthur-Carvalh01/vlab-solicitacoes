@@ -40,7 +40,7 @@ export default function NovaSolicitacaoDialog({ open, onClose, onSuccess }: Prop
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle sx={{ fontWeight: 'bold' }}>Nova Solicitação</DialogTitle>
+      <DialogTitle sx={{ fontWeight: 'bold', color: '#1976d2' }}>Nova Solicitação</DialogTitle>
       <form onSubmit={handleSubmit}>
         <DialogContent>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
