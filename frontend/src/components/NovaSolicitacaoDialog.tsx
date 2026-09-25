@@ -1,4 +1,4 @@
-import React, { useState, type FormEvent } from 'react';
+import { useState, type FormEvent } from 'react';
 import { api } from '../services/api';
 import {
   Dialog, DialogTitle, DialogContent, DialogActions, Button,
