@@ -46,3 +46,22 @@ docker exec -it vlab_api php artisan migrate
 **4. Acesse a Aplicação**
 * **Frontend:** [http://localhost:5173](http://localhost:5173)
 * **Backend (API):** [http://localhost:8000/api/v1/solicitacoes](http://localhost:8000/api/v1/solicitacoes)
+
+## 🧪 Testes Automatizados
+
+O projeto conta com testes de integração e ponta a ponta (E2E) para garantir a estabilidade das regras de negócio e da interface.
+
+* **Backend (PHPUnit):** Testes de validação da máquina de estados, garantindo que transições inválidas (ex: `RECEBIDA` diretamente para `CONCLUIDA`) sejam bloqueadas pela API.
+* **Frontend (Cypress):** Testes E2E simulando o comportamento do utilizador, com validação de campos obrigatórios dinâmicos (como a exigência de justificativa para prioridade URGENTE) e integração visual com os componentes do Material-UI.
+
+![Execução do Teste Cypress](frontend/cypress/screenshots/teste-cypress-aprovado.png)
+
+**Para executar os testes:**
+* **Backend:** `docker-compose exec api php artisan test`
+* **Frontend:** Navegue até à pasta `/frontend` e execute `npx cypress open`
+
+## 📖 Documentação da API
+
+A especificação completa dos endpoints, parâmetros e regras de requisição/resposta da API foi construída seguindo o padrão OpenAPI 3.0. 
+
+Você pode consultar a documentação técnica diretamente no arquivo [openapi.yaml](./openapi.yaml) localizado na raiz deste repositório. Para uma visualização interativa, basta colar o conteúdo do arquivo no [Swagger Editor](https://editor.swagger.io/).

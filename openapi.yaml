@@ -1,0 +1,97 @@
+openapi: 3.0.0
+info:
+  title: API V-Lab - Gestão de Solicitações
+  version: 1.0.0
+  description: Documentação técnica dos endpoints REST do desafio V-Lab.
+paths:
+  /api/v1/solicitacoes:
+    get:
+      summary: Lista e filtra as solicitações
+      tags:
+        - Solicitações
+      parameters:
+        - name: status
+          in: query
+          description: Filtrar por status (ex RECEBIDA, EM_ANALISE)
+          schema:
+            type: string
+        - name: categoria
+          in: query
+          description: Filtrar por categoria (ex CONSULTA, EXAME)
+          schema:
+            type: string
+        - name: prioridade
+          in: query
+          description: Filtrar por prioridade (ex BAIXA, URGENTE)
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista paginada de solicitações
+          
+    post:
+      summary: Cria uma nova solicitação
+      tags:
+        - Solicitações
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - nome_solicitante
+                - categoria
+                - prioridade
+                - descricao
+              properties:
+                nome_solicitante:
+                  type: string
+                  example: Paciente Teste
+                categoria:
+                  type: string
+                  example: CONSULTA
+                prioridade:
+                  type: string
+                  example: URGENTE
+                descricao:
+                  type: string
+                  example: Avaliação cardiológica necessária.
+                justificativa_prioridade:
+                  type: string
+                  example: Risco elevado.
+      responses:
+        '201':
+          description: Solicitação criada com sucesso
+        '422':
+          description: Erro de validação (ex justificativa ausente para prioridade URGENTE)
+
+  /api/v1/solicitacoes/{id}/status:
+    patch:
+      summary: Atualiza o status de uma solicitação
+      tags:
+        - Solicitações
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID numérico da solicitação
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - status
+              properties:
+                status:
+                  type: string
+                  example: EM_ANALISE
+      responses:
+        '200':
+          description: Status atualizado com sucesso
+        '422':
+          description: Transição de status inválida pela máquina de estados
